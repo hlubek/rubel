@@ -1,0 +1,137 @@
+grammar Rubel
+  rule expression
+    ternary /
+    conjunction /
+    disjunction /
+    negation /
+    comparison /
+    inequality /
+    equality /
+    sub_expression /
+    simple_expression
+  end
+  rule ternary
+    condition:(sub_expression / simple_expression) '?' then_expression:expression ':' else_expression:expression {
+      def value(context)
+        if condition.value(context)
+          then_expression.value(context)
+        else
+          else_expression.value(context)
+        end
+      end
+    }
+  end
+  rule conjunction
+    left:(sub_expression / simple_expression) 'and ' right:expression {
+      def value(context)
+        left.value(context) && right.value(context) 
+      end
+    }
+  end
+  rule disjunction
+    left:(sub_expression / simple_expression) 'or ' right:expression {
+      def value(context)
+        left.value(context) || right.value(context) 
+      end
+    }
+  end
+  rule disjunction
+    left:(sub_expression / simple_expression) 'or ' right:expression {
+      def value(context)
+        left.value(context) || right.value(context) 
+      end
+    }
+  end
+  rule negation
+    '!' expression {
+      def value(context)
+        !expression.value(context)
+      end
+    }
+  end
+  rule comparison
+    left:(sub_expression / simple_expression) operator:('<=' / '<' / '>=' / '>') right:expression {
+      def value(context)
+        case operator.text_value
+          when '<' then left.value(context) < right.value(context)
+          when '<=' then left.value(context) <= right.value(context)
+          when '>=' then left.value(context) >= right.value(context)
+          when '>' then left.value(context) > right.value(context)
+        end
+      end
+    }
+  end
+  rule inequality
+    left:(sub_expression / simple_expression) '!=' right:expression {
+      def value(context)
+        left.value(context) != right.value(context) 
+      end
+    }
+  end
+  rule equality
+    left:(sub_expression / simple_expression) '==' right:expression {
+      def value(context)
+        left.value(context) == right.value(context) 
+      end
+    }
+  end
+  rule simple_expression
+    space path space {
+      def value(context)
+        path.value(context)
+      end
+    } / space integer_number space {
+      def value(context)
+        integer_number.value(context)
+      end
+    } / space float_number space {
+      def value(context)
+        float_number.value(context)
+      end
+    }
+  end
+  rule sub_expression
+    space '(' expression ')' space {
+      def value(context)
+        expression.value(context)
+      end
+    }
+  end
+  rule path
+    identifier '.' path {
+      def value(context)
+        context = identifier.value(context)
+        nil if context.nil?
+        path.value(context)
+      end
+    } / identifier '' {
+      def value(context)
+        identifier.value(context)
+      end
+    }
+  end
+  rule identifier
+    identifier_letters:([a-zA-Z] [a-zA-Z0-9_]*) '' {
+      def value(context)
+        context[identifier_letters.text_value]
+      end
+    }
+  end
+  rule integer_number
+    number_chars:('-'? [0-9]+) !'.' {
+      def value(context)
+        number_chars.text_value.to_i
+      end
+    }
+  end
+  rule float_number
+    number_chars:('-'? [0-9]+ '.' [0-9]+) '' {
+      def value(context)
+        number_chars.text_value.to_f
+      end
+    }
+  end
+  rule space
+    [\s\r\n\t]*
+  end
+end
