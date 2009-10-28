@@ -11,17 +11,17 @@ nothing harmful can be done with the expression.
 
 h2. Short Example
 
-<code language="Ruby">
+<pre language="Ruby">
 firstname == 'Charly' or age > 16
-</code>
+</pre>
 
 You can evaluate a Rubel expression like above with:
 
-<code language="Ruby">
+<pre language="Ruby">
 parser = RubelParser.new
 result = parser.parse('firstname == 'Charly' or age > 16').value({'firstname' => 'Charly', 'age' => 15})
 # result => true
-</code>
+</pre>
 
 h2. Supported operations
 
