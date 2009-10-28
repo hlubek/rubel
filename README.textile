@@ -1,0 +1,31 @@
+h1. Rubel
+
+Rubel is a Ruby Expression Language.
+
+h2. What is it for?
+
+Rubel is a _safe_ way to execute simple logic like comparisons against a Ruby Hash holding a context.
+If you ever wanted to include some functionality e.g. inside views or user defined content, Rubel
+will make it easy to evaluate that code. The expression is interpreted and not eval'd in Ruby, so
+nothing harmful can be done with the expression.
+
+h2. Short Example
+
+<code language="Ruby">
+firstname == 'Charly' or age > 16
+</code>
+
+You can evaluate a Rubel expression like above with:
+
+<code language="Ruby">
+parser = RubelParser.new
+result = parser.parse('firstname == 'Charly' or age > 16').value({'firstname' => 'Charly', 'age' => 15})
+# result => true
+</code>
+
+h2. Supported operations
+
+See tests for now.
+
+-------------------------------------
+Copyright 2009, Christopher Hlubek <hlubek@resoap.com>, resoap software applications.
