@@ -25,11 +25,17 @@ h3. Evaluating expressions
 You can evaluate a Rubel expression like above inside your code:
 
 <pre language="Ruby">
-parser = RubelParser.new
-result = parser.parse('firstname == 'Charly' or age > 16').
-                value({'user' => {'firstname' => 'Charly', 'age' => 15}})
+require 'rubel'
+
+rubel = Rubel::Evaluator.new
+result = rubel.evaluate 'firstname == 'Charly' or age > 16',
+                        :with => {'user' => {'firstname' => 'Charly', 'age' => 15}
 # result => true
 </pre>
+
+h2. Installation
+
+You need the treetop gem for rubel. Just include @rubel.rb@.
 
 h2. Supported operations
 
