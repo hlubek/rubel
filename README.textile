@@ -14,11 +14,15 @@ h2. How does it work?
 Rubel evaluates _expressions_ in a given _context_. Expressions are a subset of safe Ruby code. A
 context is simply a Hash for now.
 
+h3. Example expression
+
 <pre language="Ruby">
 user.firstname == 'Charly' or user.age > 16
 </pre>
 
-You can evaluate a Rubel expression like above with:
+h3. Evaluating expressions
+
+You can evaluate a Rubel expression like above inside your code:
 
 <pre language="Ruby">
 parser = RubelParser.new

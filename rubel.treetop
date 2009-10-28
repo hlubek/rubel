@@ -113,7 +113,12 @@ grammar Rubel
   rule identifier
     identifier_letters:([a-zA-Z] [a-zA-Z0-9_]*) '' {
       def value(context)
-        context[identifier_letters.text_value]
+        identifier_text = identifier_letters.text_value
+        if context.has_key?(identifier_text)
+          context[identifier_text] 
+        else
+          context[identifier_text.to_sym]
+        end
       end
     }
   end

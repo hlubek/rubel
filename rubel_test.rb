@@ -33,6 +33,10 @@ class RubelTest < Test::Unit::TestCase
     tree = @parser.parse 'my_identifier'
     assert_equal 42, tree.value({'my_identifier' => 42})    
   end
+  def test_identifier_value_from_sym
+    tree = @parser.parse 'my_identifier'
+    assert_equal 42, tree.value({:my_identifier => 42})    
+  end
   def test_parses_path
     tree = @parser.parse 'my_path.my_identifier'
     assert tree
