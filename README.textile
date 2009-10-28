@@ -9,17 +9,21 @@ If you ever wanted to include some functionality e.g. inside views or user defin
 will make it easy to evaluate that code. The expression is interpreted and not eval'd in Ruby, so
 nothing harmful can be done with the expression.
 
-h2. Short Example
+h2. How does it work?
+
+Rubel evaluates _expressions_ in a given _context_. Expressions are a subset of safe Ruby code. A
+context is simply a Hash for now.
 
 <pre language="Ruby">
-firstname == 'Charly' or age > 16
+user.firstname == 'Charly' or user.age > 16
 </pre>
 
 You can evaluate a Rubel expression like above with:
 
 <pre language="Ruby">
 parser = RubelParser.new
-result = parser.parse('firstname == 'Charly' or age > 16').value({'firstname' => 'Charly', 'age' => 15})
+result = parser.parse('firstname == 'Charly' or age > 16').
+                value({'user' => {'firstname' => 'Charly', 'age' => 15}})
 # result => true
 </pre>
 
